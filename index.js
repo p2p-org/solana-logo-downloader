@@ -2,6 +2,13 @@ const tokens = require('./tokens.json').tokens;
 const async = require("async");
 const get = require("async-get-file");
 const fs = require('fs');
+const path = require('path');
+const iosAssetGenerator = require("xc-assetcat-gen");
+
+// Enums
+const Idiom = iosAssetGenerator.Enums.Idiom;
+const Scale = iosAssetGenerator.Enums.Scale;
+const Type = iosAssetGenerator.Enums.Type;
 
 const logoDir = "./logos/"
 
@@ -43,4 +50,52 @@ async function downloadImages() {
     }
 }
 
-downloadImages();
+// asset generator
+this.config = {
+    source_images_root: logoDir,
+    asset_catalog_root: logoDir + "ios/logos.xcassets",
+    author: "Chung tran"
+};
+
+async function generateAssets() {
+    // for iOS
+    fs.readdir(logoDir, (err, files) => {
+        var assets = [];
+
+        files.forEach(file => {
+            if (!fs.lstatSync(path.resolve(logoDir, file)).isDirectory()) {
+                if (file == ".DS_Store") {
+                    return;
+                }
+                console.log('File: ' + file);
+                let assetName = file.split(".")
+                assetName = assetName[0]
+                assets.push(
+                    {
+                        name: assetName,
+                        source: file,
+                        target: "",
+                        size: { width: 50, height: 50 },
+                        format: "png",
+                        type: Type.ImageSet,
+                        devices: [Idiom.iPhone, Idiom.iPad, Idiom.mac, Idiom.tv]
+                    }
+                )
+            }
+        });
+
+        console.log(this.config);
+        const parser = new iosAssetGenerator.Parser(assets);
+        parser.parse();
+    });
+
+    // for android
+}
+
+// main function
+async function main() {
+    await downloadImages();
+    await generateAssets();
+}
+
+main();

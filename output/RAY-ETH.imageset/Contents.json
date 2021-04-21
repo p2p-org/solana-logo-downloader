@@ -1,0 +1,51 @@
+{
+  "info": {
+    "author": "Chung tran",
+    "version": 1
+  },
+  "images": [
+    {
+      "idiom": "iphone",
+      "scale": "1x"
+    },
+    {
+      "idiom": "iphone",
+      "scale": "2x",
+      "filename": "RAY-ETH-iPhone@2x.png"
+    },
+    {
+      "idiom": "iphone",
+      "scale": "3x",
+      "filename": "RAY-ETH-iPhone@3x.png"
+    },
+    {
+      "idiom": "ipad",
+      "scale": "1x"
+    },
+    {
+      "idiom": "ipad",
+      "scale": "2x",
+      "filename": "RAY-ETH-iPad@2x.png"
+    },
+    {
+      "idiom": "mac",
+      "scale": "1x",
+      "filename": "RAY-ETH-mac@1x.png"
+    },
+    {
+      "idiom": "mac",
+      "scale": "2x",
+      "filename": "RAY-ETH-mac@2x.png"
+    },
+    {
+      "idiom": "tv",
+      "scale": "1x",
+      "filename": "RAY-ETH-tv@1x.png"
+    },
+    {
+      "idiom": "tv",
+      "scale": "2x",
+      "filename": "RAY-ETH-tv@2x.png"
+    }
+  ]
+}
