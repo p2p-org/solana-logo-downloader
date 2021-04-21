@@ -1,11 +1,14 @@
 const tokens = require('./tokens.json').tokens;
 const async = require("async");
 const get = require("async-get-file");
+const fs = require('fs');
+
+const logoDir = "./logos/"
 
 // download function
 async function downloadImage(url, symbol) {
     var options = {
-        directory: "./logos/",
+        directory: logoDir,
         filename: symbol + ".png"
     }
     await get(url, options);
@@ -15,10 +18,19 @@ async function downloadImage(url, symbol) {
 async function downloadImages() {
     for (const index in tokens) {
         let token = tokens[index];
-        console.log("Downloading image for " + token.symbol);
         let url = token.logoURI;
 
         if (url) {
+            try {
+                if (fs.existsSync(logoDir + token.symbol + ".png")) {
+                    //file exists, skip
+                    continue;
+                }
+            } catch(err) {
+                // console.error(err)
+            }
+
+            console.log("Downloading image for " + token.symbol);
             try {
                 await downloadImage(url, token.symbol)
             } catch (err) {
