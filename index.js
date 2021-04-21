@@ -29,7 +29,7 @@ async function downloadImages() {
 
         if (url) {
             try {
-                if (fs.existsSync(logoDir + token.symbol + ".png")) {
+                if (fs.existsSync(logoDir + token.symbol + ".png") || fs.existsSync(logoDir + token.symbol + ".svg")) {
                     //file exists, skip
                     continue;
                 }
