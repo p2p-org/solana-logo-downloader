@@ -17,35 +17,6 @@
       "idiom": "iphone",
       "scale": "3x",
       "filename": "HGET-iPhone@3x.png"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "filename": "HGET-iPad@2x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "1x",
-      "filename": "HGET-mac@1x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "2x",
-      "filename": "HGET-mac@2x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "1x",
-      "filename": "HGET-tv@1x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "2x",
-      "filename": "HGET-tv@2x.png"
     }
   ]
 }

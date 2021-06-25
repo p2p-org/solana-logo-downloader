@@ -10,13 +10,13 @@ const Idiom = iosAssetGenerator.Enums.Idiom;
 const Scale = iosAssetGenerator.Enums.Scale;
 const Type = iosAssetGenerator.Enums.Type;
 
-const logoDir = "./logos/"
+const logoDir = "./logos"
 
 // download function
-async function downloadImage(url, symbol) {
+async function downloadImage(path, url, filename) {
     var options = {
-        directory: logoDir,
-        filename: symbol + ".png"
+        directory: logoDir + path,
+        filename: filename
     }
     await get(url, options);
 }
@@ -28,18 +28,34 @@ async function downloadImages() {
         let url = token.logoURI;
 
         if (url) {
+            // get filename
+            let filename = token.symbol + ".png";
+            if (url.endsWith(".svg")) {
+                filename = token.symbol + ".svg";
+            }
+
+            // replace "/" in file name
+            let log = "Downloading file " + filename;
+            let replacer = filename.replace("/", "-");
+            if (filename != replacer) {
+                log += " and rename to " + replacer;
+                filename = replacer;
+            }
+
+            // check if file exists
             try {
-                if (fs.existsSync(logoDir + token.symbol + ".png") || fs.existsSync(logoDir + token.symbol + ".svg")) {
+                if (fs.existsSync(logoDir + "/" + filename)) {
                     //file exists, skip
                     continue;
                 }
             } catch(err) {
-                // console.error(err)
+                console.error(err)
             }
 
-            console.log("Downloading image for " + token.symbol);
+            // download
             try {
-                await downloadImage(url, token.symbol)
+                console.log(log);
+                await downloadImage("/", url, filename);
             } catch (err) {
                 console.log("Error downloading " + token.symbol + "'s logo with url: " + token.logoURI + ", error: " + err);
             }
@@ -52,8 +68,8 @@ async function downloadImages() {
 
 // asset generator
 this.config = {
-    source_images_root: logoDir,
-    asset_catalog_root: logoDir + "ios/logos.xcassets",
+    source_images_root: logoDir + "/",
+    asset_catalog_root: logoDir + "/ios/logos.xcassets",
     author: "Chung tran"
 };
 
@@ -78,7 +94,7 @@ async function generateAssets() {
                         size: { width: 50, height: 50 },
                         format: "png",
                         type: Type.ImageSet,
-                        devices: [Idiom.iPhone, Idiom.iPad, Idiom.mac, Idiom.tv]
+                        devices: [Idiom.iPhone]
                     }
                 )
             }
@@ -95,7 +111,7 @@ async function generateAssets() {
 // main function
 async function main() {
     await downloadImages();
-    await generateAssets();
+    // await generateAssets();
 }
 
 main();

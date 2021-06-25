@@ -17,35 +17,6 @@
       "idiom": "iphone",
       "scale": "3x",
       "filename": "BTC-USDT-iPhone@3x.png"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "filename": "BTC-USDT-iPad@2x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "1x",
-      "filename": "BTC-USDT-mac@1x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "2x",
-      "filename": "BTC-USDT-mac@2x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "1x",
-      "filename": "BTC-USDT-tv@1x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "2x",
-      "filename": "BTC-USDT-tv@2x.png"
     }
   ]
 }

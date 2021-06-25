@@ -17,35 +17,6 @@
       "idiom": "iphone",
       "scale": "3x",
       "filename": "FIDA-RAY-iPhone@3x.png"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "filename": "FIDA-RAY-iPad@2x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "1x",
-      "filename": "FIDA-RAY-mac@1x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "2x",
-      "filename": "FIDA-RAY-mac@2x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "1x",
-      "filename": "FIDA-RAY-tv@1x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "2x",
-      "filename": "FIDA-RAY-tv@2x.png"
     }
   ]
 }

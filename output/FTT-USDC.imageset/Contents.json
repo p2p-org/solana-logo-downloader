@@ -17,35 +17,6 @@
       "idiom": "iphone",
       "scale": "3x",
       "filename": "FTT-USDC-iPhone@3x.png"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "2x",
-      "filename": "FTT-USDC-iPad@2x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "1x",
-      "filename": "FTT-USDC-mac@1x.png"
-    },
-    {
-      "idiom": "mac",
-      "scale": "2x",
-      "filename": "FTT-USDC-mac@2x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "1x",
-      "filename": "FTT-USDC-tv@1x.png"
-    },
-    {
-      "idiom": "tv",
-      "scale": "2x",
-      "filename": "FTT-USDC-tv@2x.png"
     }
   ]
 }
