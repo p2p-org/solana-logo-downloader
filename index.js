@@ -36,7 +36,7 @@ async function downloadImages() {
 
             // replace "/" in file name
             let log = "Downloading file " + filename;
-            let replacer = filename.replace("/", "-");
+            let replacer = filename.replace("/", "-").replace("Ü", "U");
             if (filename != replacer) {
                 log += " and rename to " + replacer;
                 filename = replacer;
