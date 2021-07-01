@@ -1,5 +1,5 @@
-const tokens = require('./tokens.json').tokens;
 const async = require("async");
+const got = require('got');
 const get = require("async-get-file");
 const fs = require('fs');
 const path = require('path');
@@ -23,6 +23,8 @@ async function downloadImage(path, url, filename) {
 
 // loop throw tokens list and download
 async function downloadImages() {
+    const response = await got('https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json');
+    let tokens = JSON.parse(response.body).tokens;
     for (const index in tokens) {
         let token = tokens[index];
         let url = token.logoURI;
@@ -55,7 +57,7 @@ async function downloadImages() {
             // download
             try {
                 console.log(log);
-                await downloadImage("/", url, filename);
+                await downloadImage("/new", url, filename);
             } catch (err) {
                 console.log("Error downloading " + token.symbol + "'s logo with url: " + token.logoURI + ", error: " + err);
             }
