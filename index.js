@@ -39,6 +39,16 @@ async function downloadImages() {
             // replace "/" in file name
             let log = "Downloading file " + filename;
             let replacer = filename.replace("/", "-").replace("Ü", "U");
+
+            // add prefix for liquidity tokens
+            if (token.name.startsWith("Raydium ") && token.symbol.includes("-")) {
+                replacer = "Raydium-" + replacer;
+            }
+
+            if (token.name.startsWith("Orca ") && token.symbol.includes("/")) {
+                replacer = "Orca-"+replacer;
+            }
+
             if (filename != replacer) {
                 log += " and rename to " + replacer;
                 filename = replacer;
