@@ -49,6 +49,10 @@ async function downloadImages() {
                 replacer = "Orca-"+replacer;
             }
 
+            if (token.name.startsWith("Mercurial ") && token.symbol.includes("/")) {
+                replacer = "Mercurial-"+replacer;
+            }
+
             if (filename != replacer) {
                 log += " and rename to " + replacer;
                 filename = replacer;
