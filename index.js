@@ -23,7 +23,7 @@ async function downloadImage(path, url, filename) {
 
 // loop throw tokens list and download
 async function downloadImages() {
-    const response = await got('https://raw.githubusercontent.com/bigearsenal/token-list/patch-2/src/tokens/solana.tokenlist.json');
+    const response = await got('https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json');
     let tokens = JSON.parse(response.body).tokens;
     for (const index in tokens) {
         let token = tokens[index];
