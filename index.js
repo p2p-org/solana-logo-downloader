@@ -31,13 +31,15 @@ async function downloadImages() {
 
         if (url) {
             // get filename
-            let filename = token.symbol + ".png";
+            let filename = token.symbol;
+
+            let extension = "png";
             if (url.endsWith(".svg")) {
-                filename = token.symbol + ".svg";
+                extension = "svg";
             }
 
             // replace "/" in file name
-            let log = "Downloading file " + filename;
+            let log = "Downloading file " + filename + "." + extension;
             let replacer = filename.replace("/", "-").replace("Ü", "U");
 
             // add prefix for liquidity tokens
@@ -54,13 +56,13 @@ async function downloadImages() {
             }
 
             if (filename != replacer) {
-                log += " and rename to " + replacer;
+                log += " and rename to " + replacer + "." + extension;
                 filename = replacer;
             }
 
             // check if file exists
             try {
-                if (fs.existsSync(logoDir + "/" + filename)) {
+                if (fs.existsSync(logoDir + "/" + filename + ".png") || fs.existsSync(logoDir + "/" + filename + ".svg")) {
                     //file exists, skip
                     continue;
                 }
@@ -71,7 +73,7 @@ async function downloadImages() {
             // download
             try {
                 console.log(log);
-                await downloadImage("/new", url, filename);
+                await downloadImage("/new", url, filename + "." + extension);
             } catch (err) {
                 console.log("Error downloading " + token.symbol + "'s logo with url: " + token.logoURI + ", error: " + err);
             }
