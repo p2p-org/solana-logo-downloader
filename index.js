@@ -66,8 +66,40 @@ async function downloadImages() {
 
         // check if file exists
         try {
-            if (fs.existsSync(logoDir + "/" + filename + "." + extension)) {
-                //file exists, skip
+            let fileExists = false;
+            if (fs.existsSync(logoDir + "/" + filename + ".png")) {
+                extension = "png";
+                fileExists = true;
+            }
+            if (fs.existsSync(logoDir + "/" + filename + ".svg")) {
+                extension = "svg"
+                fileExists = true;
+            }
+
+            if (fileExists) {
+                // create asset
+                let imageSetPath = logoDir + "/assets/ios/" + token.address + ".imageset";
+                fs.mkdir(imageSetPath, {recursive: true}, function (error) {
+                    if (error) {
+                        console.log("Error creating folder: " + imageSetPath);
+                        return;
+                    }
+                    fs.rename(logoDir + "/" + filename + "." + extension, imageSetPath + "/logo." + extension, function (error) {
+                        if (error) {
+                            console.log("Error copying file: " + filename + "." + extension + ". Error: " + error);
+                            return;
+                        }
+                        let content = JSON.parse("{\"images\":[{\"filename\":\"MEOW.png\",\"idiom\":\"universal\",\"scale\":\"1x\"},{\"idiom\":\"universal\",\"scale\":\"2x\"},{\"idiom\":\"universal\",\"scale\":\"3x\"}],\"info\":{\"author\":\"xcode\",\"version\":1}}");
+                        content.images[0].filename = filename + "." + extension;
+                        let string = JSON.stringify(content);
+                        fs.writeFile(imageSetPath + "/Contents.json", string, function (error) {
+                            if (error) {
+                                console.log("Error writing file Content.json: " + string);
+                                return;
+                            }
+                        })
+                    })
+                })
                 continue;
             }
         } catch(err) {
