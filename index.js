@@ -113,8 +113,8 @@ async function downloadImages() {
                     console.log("Error copying file: " + filename + "." + extension + ". Error: " + error);
                     return;
                 }
-                let content = JSON.parse("{\"images\":[{\"filename\":\"MEOW.png\",\"idiom\":\"universal\",\"scale\":\"1x\"},{\"idiom\":\"universal\",\"scale\":\"2x\"},{\"idiom\":\"universal\",\"scale\":\"3x\"}],\"info\":{\"author\":\"xcode\",\"version\":1}}");
-                content.images[0].filename = filename + "." + extension;
+                let content = JSON.parse("{\"images\":[{\"filename\":\"logo.png\",\"idiom\":\"universal\",\"scale\":\"1x\"},{\"idiom\":\"universal\",\"scale\":\"2x\"},{\"idiom\":\"universal\",\"scale\":\"3x\"}],\"info\":{\"author\":\"xcode\",\"version\":1}}");
+                content.images[0].filename = "logo." + extension;
                 let string = JSON.stringify(content);
                 fs.writeFile(imageSetPath + "/Contents.json", string, function (error) {
                     if (error) {
