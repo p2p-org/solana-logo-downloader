@@ -25,6 +25,8 @@ async function downloadImage(path, url, filename) {
 async function downloadImages() {
     const response = await got('https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json');
     let tokens = JSON.parse(response.body).tokens;
+
+    let assets = [];
     for (const index in tokens) {
         let token = tokens[index];
         let url = token.logoURI;
@@ -77,91 +79,57 @@ async function downloadImages() {
             }
 
             if (fileExists) {
-                // create asset
-                let imageSetPath = logoDir + "/assets/ios/" + token.address + ".imageset";
-                fs.mkdir(imageSetPath, {recursive: true}, function (error) {
-                    if (error) {
-                        console.log("Error creating folder: " + imageSetPath);
-                        return;
-                    }
-                    fs.rename(logoDir + "/" + filename + "." + extension, imageSetPath + "/logo." + extension, function (error) {
-                        if (error) {
-                            console.log("Error copying file: " + filename + "." + extension + ". Error: " + error);
-                            return;
-                        }
-                        let content = JSON.parse("{\"images\":[{\"filename\":\"MEOW.png\",\"idiom\":\"universal\",\"scale\":\"1x\"},{\"idiom\":\"universal\",\"scale\":\"2x\"},{\"idiom\":\"universal\",\"scale\":\"3x\"}],\"info\":{\"author\":\"xcode\",\"version\":1}}");
-                        content.images[0].filename = filename + "." + extension;
-                        let string = JSON.stringify(content);
-                        fs.writeFile(imageSetPath + "/Contents.json", string, function (error) {
-                            if (error) {
-                                console.log("Error writing file Content.json: " + string);
-                                return;
-                            }
-                        })
-                    })
-                })
+                //file exists, skip
+                assets.push({name: token.address, filename, extension});
                 continue;
             }
         } catch(err) {
-            console.error(err)
+            console.error(err);
         }
 
         // download
+        assets.push({name: token.address, filename, extension});
         try {
             console.log(log);
-            await downloadImage("/new", url, filename + "." + extension);
+            await downloadImage("/", url, filename + "." + extension);
         } catch (err) {
             console.log("Error downloading " + token.symbol + "'s logo with url: " + token.logoURI + ", error: " + err);
         }
     }
-}
 
-// asset generator
-this.config = {
-    source_images_root: logoDir + "/",
-    asset_catalog_root: logoDir + "/ios/logos.xcassets",
-    author: "Chung tran"
-};
-
-async function generateAssets() {
-    // for iOS
-    fs.readdir(logoDir, (err, files) => {
-        var assets = [];
-
-        files.forEach(file => {
-            if (!fs.lstatSync(path.resolve(logoDir, file)).isDirectory()) {
-                if (file == ".DS_Store") {
+    // Create assets
+    for (const index in assets) {
+        let asset = assets[index];
+        // create asset
+        let imageSetPath = logoDir + "/assets/ios/" + asset.name + ".imageset";
+        const {filename, extension} = asset;
+        fs.mkdir(imageSetPath, {recursive: true}, function (error) {
+            if (error) {
+                console.log("Error creating folder: " + imageSetPath);
+                return;
+            }
+            fs.rename(logoDir + "/" + filename + "." + extension, imageSetPath + "/logo." + extension, function (error) {
+                if (error) {
+                    console.log("Error copying file: " + filename + "." + extension + ". Error: " + error);
                     return;
                 }
-                console.log('File: ' + file);
-                let assetName = file.split(".")
-                assetName = assetName[0]
-                assets.push(
-                    {
-                        name: assetName,
-                        source: file,
-                        target: "",
-                        size: { width: 50, height: 50 },
-                        format: "png",
-                        type: Type.ImageSet,
-                        devices: [Idiom.iPhone]
+                let content = JSON.parse("{\"images\":[{\"filename\":\"MEOW.png\",\"idiom\":\"universal\",\"scale\":\"1x\"},{\"idiom\":\"universal\",\"scale\":\"2x\"},{\"idiom\":\"universal\",\"scale\":\"3x\"}],\"info\":{\"author\":\"xcode\",\"version\":1}}");
+                content.images[0].filename = filename + "." + extension;
+                let string = JSON.stringify(content);
+                fs.writeFile(imageSetPath + "/Contents.json", string, function (error) {
+                    if (error) {
+                        console.log("Error writing file Content.json: " + string);
+                        return;
                     }
-                )
-            }
+                })
+            })
         });
-
-        console.log(this.config);
-        const parser = new iosAssetGenerator.Parser(assets);
-        parser.parse();
-    });
-
-    // for android
+    }
 }
 
 // main function
 async function main() {
     await downloadImages();
-    // await generateAssets();
 }
 
 main();
