@@ -12,7 +12,6 @@
   "dependencies": {
     "async": "^3.2.0",
     "async-get-file": "^1.0.4",
-    "got": "^11.8.2",
-    "xc-assetcat-gen": "^0.0.2"
+    "got": "^11.8.2"
   }
 }
