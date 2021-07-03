@@ -29,58 +29,58 @@ async function downloadImages() {
         let token = tokens[index];
         let url = token.logoURI;
 
-        if (url) {
-            // get filename
-            let filename = token.symbol;
-
-            let extension = "png";
-            if (url.endsWith(".svg")) {
-                extension = "svg";
-            }
-
-            // replace "/" in file name
-            let log = "Downloading file " + filename + "." + extension;
-            let replacer = filename.replace("/", "-").replace("Ü", "U");
-
-            // add prefix for liquidity tokens
-            if (token.name.startsWith("Raydium ") && token.symbol.includes("-")) {
-                replacer = "Raydium-" + replacer;
-            }
-
-            if (token.name.startsWith("Orca ") && token.symbol.includes("/")) {
-                replacer = "Orca-"+replacer;
-            }
-
-            if (token.name.startsWith("Mercurial ") && token.symbol.includes("/")) {
-                replacer = "Mercurial-"+replacer;
-            }
-
-            if (filename != replacer) {
-                log += " and rename to " + replacer + "." + extension;
-                filename = replacer;
-            }
-
-            // check if file exists
-            try {
-                if (fs.existsSync(logoDir + "/" + filename + ".png") || fs.existsSync(logoDir + "/" + filename + ".svg")) {
-                    //file exists, skip
-                    continue;
-                }
-            } catch(err) {
-                console.error(err)
-            }
-
-            // download
-            try {
-                console.log(log);
-                await downloadImage("/new", url, filename + "." + extension);
-            } catch (err) {
-                console.log("Error downloading " + token.symbol + "'s logo with url: " + token.logoURI + ", error: " + err);
-            }
-        } else {
+        if (!url) {
             console.log("Logo url for " + token.symbol + " is not found");
+            continue;
         }
 
+        // get filename
+        let filename = token.symbol;
+
+        let extension = "png";
+        if (url.endsWith(".svg")) {
+            extension = "svg";
+        }
+
+        // replace "/" in file name
+        let log = "Downloading file " + filename + "." + extension;
+        let replacer = filename.replace("/", "-").replace("Ü", "U");
+
+        // add prefix for liquidity tokens
+        if (token.name.startsWith("Raydium ") && token.symbol.includes("-")) {
+            replacer = "Raydium-" + replacer;
+        }
+
+        if (token.name.startsWith("Orca ") && token.symbol.includes("/")) {
+            replacer = "Orca-"+replacer;
+        }
+
+        if (token.name.startsWith("Mercurial ") && token.symbol.includes("/")) {
+            replacer = "Mercurial-"+replacer;
+        }
+
+        if (filename != replacer) {
+            log += " and rename to " + replacer + "." + extension;
+            filename = replacer;
+        }
+
+        // check if file exists
+        try {
+            if (fs.existsSync(logoDir + "/" + filename + "." + extension)) {
+                //file exists, skip
+                continue;
+            }
+        } catch(err) {
+            console.error(err)
+        }
+
+        // download
+        try {
+            console.log(log);
+            await downloadImage("/new", url, filename + "." + extension);
+        } catch (err) {
+            console.log("Error downloading " + token.symbol + "'s logo with url: " + token.logoURI + ", error: " + err);
+        }
     }
 }
 
