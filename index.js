@@ -6,10 +6,23 @@ const path = require('path');
 
 const assetsDir = "./logos/assets/ios"
 
+function copyImageOnly(body, index, token, extension, directory) {
+    body.tokens[index].logoURI = "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/"
+        + token.address + "/logo." + extension;
+    let newDir = "./logos/token-list/" + token.address;
+    if (!fs.existsSync(newDir)){
+        fs.mkdirSync(newDir, {recursive: true});
+    }
+    fs.copyFile(directory + "/logo." + extension, newDir + "/logo." + extension, function (err) {
+        if (err) {console.log("Error copying file: " + err);}
+    });
+}
+
 // loop throw tokens list and download
 async function downloadImages() {
     const response = await got('https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json');
-    let tokens = JSON.parse(response.body).tokens;
+    let body = JSON.parse(response.body);
+    let tokens = body.tokens;
 
     for (const index in tokens) {
         let token = tokens[index];
@@ -38,6 +51,7 @@ async function downloadImages() {
 
             if (fileExists) {
                 //file exists, skip
+                copyImageOnly(body, index, token, extension, directory);
                 continue;
             }
         } catch(err) {
@@ -70,10 +84,16 @@ async function downloadImages() {
                     return;
                 }
             })
+
+            // copy
+            copyImageOnly(body, index, token, extension, directory);
         } catch (err) {
             console.log("Error downloading " + token.symbol + "'s logo with url: " + token.logoURI + ", error: " + err);
         }
     }
+    fs.writeFile("./solana.tokenlist.json", JSON.stringify(body, null, 2), function (err) {
+        if (err) {console.log("Error writing solana.tokenlist.json: " + err);}
+    })
 }
 
 // main function
