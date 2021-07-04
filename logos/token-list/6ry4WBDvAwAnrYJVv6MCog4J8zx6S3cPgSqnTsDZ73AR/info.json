@@ -1,0 +1,13 @@
+{
+  "chainId": 101,
+  "address": "6ry4WBDvAwAnrYJVv6MCog4J8zx6S3cPgSqnTsDZ73AR",
+  "name": "TRYB",
+  "symbol": "TRYB",
+  "decimals": 6,
+  "logoURI": "",
+  "tags": [],
+  "extensions": {
+    "serumV3Usdt": "AADohBGxvf7bvixs2HKC3dG2RuU3xpZDwaTzYFJThM8U",
+    "coingeckoId": "bilira"
+  }
+}

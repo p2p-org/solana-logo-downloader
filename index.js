@@ -18,6 +18,16 @@ function copyImageOnly(body, index, token, extension, directory) {
     });
 }
 
+function splitInfoJSON(body, index, token) {
+    let newDir = "./logos/token-list/" + token.address;
+    if (!fs.existsSync(newDir)){
+        fs.mkdirSync(newDir, {recursive: true});
+    }
+    fs.writeFile(newDir + "/info.json", JSON.stringify(body.tokens[index], null, 2), function (err) {
+        if (err) {console.log("Error writting file: " + err);}
+    });
+}
+
 // loop throw tokens list and download
 async function downloadImages() {
     const response = await got('https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json');
@@ -25,8 +35,10 @@ async function downloadImages() {
     let tokens = body.tokens;
 
     for (const index in tokens) {
+
         let token = tokens[index];
         let url = token.logoURI;
+        splitInfoJSON(body, index, token);
 
         if (!url) {
             console.log("Logo url for " + token.symbol + " is not found");
